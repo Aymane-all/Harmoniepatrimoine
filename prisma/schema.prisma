@@ -5,3 +5,127 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+model Service {
+  id_service  BigInt       @id @default(autoincrement())
+  nom_service String       @db.VarChar(100)
+  description String?      @db.Text
+  icone       String?      @db.VarChar(100)
+  slug        String       @unique @db.VarChar(100)
+  actif       Boolean?     @default(true)
+  created_at  DateTime?    @default(now()) @db.Timestamptz(6)
+  articles    Article[]
+  keywords    Keyword[]
+  simulateurs Simulateur[]
+  leads       Lead[]
+
+  @@map("services")
+}
+
+model Keyword {
+  id_keyword       BigInt    @id @default(autoincrement())
+  id_service       BigInt
+  mot_cle          String    @unique @db.VarChar(200)
+  slug_url         String    @unique @db.VarChar(200)
+  region           String?   @db.VarChar(100)
+  volume_recherche Int?
+  cpc_estime       Decimal?  @db.Decimal(6, 2)
+  position_google  Int?
+  actif            Boolean?  @default(true)
+  created_at       DateTime? @default(now()) @db.Timestamptz(6)
+  articles         Article?
+  leads            Lead[]
+  service          Service   @relation(fields: [id_service], references: [id_service], onUpdate: NoAction)
+
+  @@map("keywords")
+}
+
+model Simulateur {
+  id_simulateur  BigInt    @id @default(autoincrement())
+  id_service     BigInt
+  titre          String    @db.VarChar(150)
+  type_calcul    String    @db.VarChar(80)
+  champ1_label   String?   @db.VarChar(100)
+  champ1_type    String?   @db.VarChar(50)
+  champ1_min     Decimal?  @db.Decimal(8, 2)
+  champ1_max     Decimal?  @db.Decimal(8, 2)
+  champ2_label   String?   @db.VarChar(100)
+  champ2_type    String?   @db.VarChar(50)
+  champ2_options String?   @db.Text
+  champ3_label   String?   @db.VarChar(100)
+  champ3_type    String?   @db.VarChar(50)
+  formule_calcul String?   @db.Text
+  unite_resultat String?   @db.VarChar(50)
+  texte_resultat String?   @db.VarChar(200)
+  actif          Boolean?  @default(true)
+  created_at     DateTime? @default(now()) @db.Timestamptz(6)
+  articles       Article[]
+  service        Service   @relation(fields: [id_service], references: [id_service], onUpdate: NoAction)
+
+  @@map("simulateurs")
+}
+
+model Article {
+  id_article        BigInt      @id @default(autoincrement())
+  id_keyword        BigInt      @unique
+  id_service        BigInt
+  id_simulateur     BigInt
+  titre             String      @db.VarChar(200)
+  meta_description  String?     @db.VarChar(300)
+  contenu           String?     @db.Text
+  date_creation     DateTime?   @default(now()) @db.Timestamptz(6)
+  date_modification DateTime?   @db.Timestamptz(6)
+  actif             Boolean?    @default(true)
+  keyword           Keyword     @relation(fields: [id_keyword], references: [id_keyword], onUpdate: NoAction)
+  service           Service     @relation(fields: [id_service], references: [id_service], onUpdate: NoAction)
+  simulateur        Simulateur  @relation(fields: [id_simulateur], references: [id_simulateur], onUpdate: NoAction)
+  leads             Lead[]
+
+  @@map("articles")
+}
+
+enum StatutLead {
+  nouveau
+  a_rappeler
+  contacte
+  converti
+  perdu
+
+  @@map("statut_lead")
+}
+
+enum TypeLogement {
+  maison
+  appartement
+  autre
+
+  @@map("type_logement_enum")
+}
+
+model Lead {
+  id_lead             BigInt        @id @default(autoincrement())
+  id_article          BigInt?
+  id_service          BigInt?
+  id_keyword          BigInt?
+  nom_complet         String        @db.VarChar(200)
+  telephone           String        @db.VarChar(20)
+  ville               String        @db.VarChar(100)
+  consentement_rgpd   Boolean?      @default(false)
+  superficie          Int?
+  type_chauffage      String?       @db.VarChar(80)
+  type_logement       TypeLogement?
+  annee_construction  Int?
+  resultat_simulation Json?
+  valeur_simulation   Decimal?      @db.Decimal(10, 2)
+  statut              StatutLead?   @default(nouveau)
+  source_utm          String?       @db.VarChar(200)
+  campagne_utm        String?       @db.VarChar(200)
+  ip_address          String?       @db.VarChar(45)
+  date_soumission     DateTime?     @default(now()) @db.Timestamptz(6)
+  notes               String?       @db.Text
+  article             Article?      @relation(fields: [id_article], references: [id_article], onUpdate: NoAction)
+  keyword             Keyword?      @relation(fields: [id_keyword], references: [id_keyword], onUpdate: NoAction)
+  service             Service?      @relation(fields: [id_service], references: [id_service], onUpdate: NoAction)
+
+  @@map("leads")
+}

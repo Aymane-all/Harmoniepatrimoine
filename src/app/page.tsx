@@ -1,5 +1,7 @@
 import React from "react";
 import Link from "next/link";
+import Simulateur from "@/components/simulateur/Simulateur";
+
 
 export default function Home() {
   return (
@@ -9,6 +11,8 @@ export default function Home() {
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[80%] bg-emerald-100/40 rounded-full blur-[120px] animate-pulse" />
         <div className="absolute top-[10%] right-[-10%] w-[35%] h-[70%] bg-teal-100/40 rounded-full blur-[100px] animate-pulse delay-1000" />
       </div>
+      <Simulateur />
+
 
       {/* Navigation */}
       <nav className="fixed top-0 w-full z-50 border-b border-slate-200/60 bg-white/80 backdrop-blur-md">
@@ -19,7 +23,7 @@ export default function Home() {
             </div>
             <span className="font-bold tracking-tight text-2xl text-slate-800">Harmonie Patrimoine</span>
           </div>
-          
+
           <div className="hidden lg:flex items-center gap-10 text-[15px] font-semibold text-slate-600">
             <Link href="#" className="hover:text-emerald-600 transition-colors">Patrimoine</Link>
             <Link href="#" className="hover:text-emerald-600 transition-colors">Investissement</Link>
@@ -44,13 +48,13 @@ export default function Home() {
               <span className="flex h-2 w-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.6)]" />
               Expertise & Sérénité
             </div>
-            
+
             <h1 className="text-6xl md:text-8xl font-black tracking-tight text-slate-900 leading-[1.05] mb-10 max-w-5xl">
               L'art de cultiver votre <span className="bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-500 bg-clip-text text-transparent">Héritage</span>
             </h1>
-            
+
             <p className="text-xl md:text-2xl text-slate-600 max-w-3xl leading-relaxed mb-12 font-medium">
-              Nous accompagnons les familles et les entrepreneurs dans la gestion, 
+              Nous accompagnons les familles et les entrepreneurs dans la gestion,
               la protection et la transmission de leur patrimoine avec une vision durable.
             </p>
 
