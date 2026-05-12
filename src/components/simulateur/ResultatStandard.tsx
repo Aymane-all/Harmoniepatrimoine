@@ -162,10 +162,10 @@ interface AideRowProps {
 
 function AideRow({ iconBg, icon, name, desc, tag, tagColor, amount }: AideRowProps) {
   const tagClasses = {
-    brand:   "bg-brand-100 text-brand-700",
+    brand: "bg-brand-100 text-brand-700",
     warning: "bg-warning-50 text-warning-700",
     success: "bg-success-50 text-success-700",
-    gray:    "bg-gray-100 text-gray-600",
+    gray: "bg-gray-100 text-gray-600",
   }[tagColor];
 
   return (

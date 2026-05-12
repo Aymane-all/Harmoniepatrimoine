@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["partialIndexes"]
 }
 
 datasource db {
@@ -9,16 +10,18 @@ datasource db {
 model Service {
   id_service  BigInt       @id @default(autoincrement())
   nom_service String       @db.VarChar(100)
-  description String?      @db.Text
+  description String?
   icone       String?      @db.VarChar(100)
   slug        String       @unique @db.VarChar(100)
   actif       Boolean?     @default(true)
   created_at  DateTime?    @default(now()) @db.Timestamptz(6)
   articles    Article[]
   keywords    Keyword[]
-  simulateurs Simulateur[]
   leads       Lead[]
+  simulateurs Simulateur[]
 
+  @@index([actif], map: "idx_services_actif", where: raw("(actif = true)"))
+  @@index([slug], map: "idx_services_slug")
   @@map("services")
 }
 
@@ -34,9 +37,12 @@ model Keyword {
   actif            Boolean?  @default(true)
   created_at       DateTime? @default(now()) @db.Timestamptz(6)
   articles         Article?
+  service          Service   @relation(fields: [id_service], references: [id_service], onUpdate: NoAction, map: "fk_keywords_service")
   leads            Lead[]
-  service          Service   @relation(fields: [id_service], references: [id_service], onUpdate: NoAction)
 
+  @@index([actif], map: "idx_keywords_actif", where: raw("(actif = true)"))
+  @@index([id_service], map: "idx_keywords_service")
+  @@index([slug_url], map: "idx_keywords_slug_url")
   @@map("keywords")
 }
 
@@ -51,55 +57,42 @@ model Simulateur {
   champ1_max     Decimal?  @db.Decimal(8, 2)
   champ2_label   String?   @db.VarChar(100)
   champ2_type    String?   @db.VarChar(50)
-  champ2_options String?   @db.Text
+  champ2_options String?
   champ3_label   String?   @db.VarChar(100)
   champ3_type    String?   @db.VarChar(50)
-  formule_calcul String?   @db.Text
+  formule_calcul String?
   unite_resultat String?   @db.VarChar(50)
   texte_resultat String?   @db.VarChar(200)
   actif          Boolean?  @default(true)
   created_at     DateTime? @default(now()) @db.Timestamptz(6)
   articles       Article[]
-  service        Service   @relation(fields: [id_service], references: [id_service], onUpdate: NoAction)
+  service        Service   @relation(fields: [id_service], references: [id_service], onUpdate: NoAction, map: "fk_simulateurs_service")
 
+  @@index([id_service], map: "idx_simulateurs_service")
   @@map("simulateurs")
 }
 
 model Article {
-  id_article        BigInt      @id @default(autoincrement())
-  id_keyword        BigInt      @unique
+  id_article        BigInt     @id @default(autoincrement())
+  id_keyword        BigInt     @unique
   id_service        BigInt
   id_simulateur     BigInt
-  titre             String      @db.VarChar(200)
-  meta_description  String?     @db.VarChar(300)
-  contenu           String?     @db.Text
-  date_creation     DateTime?   @default(now()) @db.Timestamptz(6)
-  date_modification DateTime?   @db.Timestamptz(6)
-  actif             Boolean?    @default(true)
-  keyword           Keyword     @relation(fields: [id_keyword], references: [id_keyword], onUpdate: NoAction)
-  service           Service     @relation(fields: [id_service], references: [id_service], onUpdate: NoAction)
-  simulateur        Simulateur  @relation(fields: [id_simulateur], references: [id_simulateur], onUpdate: NoAction)
+  titre             String     @db.VarChar(200)
+  meta_description  String?    @db.VarChar(300)
+  contenu           String?
+  date_creation     DateTime?  @default(now()) @db.Timestamptz(6)
+  date_modification DateTime?  @db.Timestamptz(6)
+  actif             Boolean?   @default(true)
+  keyword           Keyword    @relation(fields: [id_keyword], references: [id_keyword], onUpdate: NoAction, map: "fk_articles_keyword")
+  service           Service    @relation(fields: [id_service], references: [id_service], onUpdate: NoAction, map: "fk_articles_service")
+  simulateur        Simulateur @relation(fields: [id_simulateur], references: [id_simulateur], onUpdate: NoAction, map: "fk_articles_simulateur")
   leads             Lead[]
 
+  @@index([actif], map: "idx_articles_actif", where: raw("(actif = true)"))
+  @@index([id_keyword], map: "idx_articles_keyword")
+  @@index([id_service], map: "idx_articles_service")
+  @@index([id_simulateur], map: "idx_articles_simulateur")
   @@map("articles")
-}
-
-enum StatutLead {
-  nouveau
-  a_rappeler
-  contacte
-  converti
-  perdu
-
-  @@map("statut_lead")
-}
-
-enum TypeLogement {
-  maison
-  appartement
-  autre
-
-  @@map("type_logement_enum")
 }
 
 model Lead {
@@ -122,10 +115,34 @@ model Lead {
   campagne_utm        String?       @db.VarChar(200)
   ip_address          String?       @db.VarChar(45)
   date_soumission     DateTime?     @default(now()) @db.Timestamptz(6)
-  notes               String?       @db.Text
-  article             Article?      @relation(fields: [id_article], references: [id_article], onUpdate: NoAction)
-  keyword             Keyword?      @relation(fields: [id_keyword], references: [id_keyword], onUpdate: NoAction)
-  service             Service?      @relation(fields: [id_service], references: [id_service], onUpdate: NoAction)
+  notes               String?
+  article             Article?      @relation(fields: [id_article], references: [id_article], onUpdate: NoAction, map: "fk_leads_article")
+  keyword             Keyword?      @relation(fields: [id_keyword], references: [id_keyword], onUpdate: NoAction, map: "fk_leads_keyword")
+  service             Service?      @relation(fields: [id_service], references: [id_service], onUpdate: NoAction, map: "fk_leads_service")
 
+  @@index([id_article], map: "idx_leads_article")
+  @@index([date_soumission(sort: Desc)], map: "idx_leads_date_soumission")
+  @@index([id_keyword], map: "idx_leads_keyword")
+  @@index([id_service], map: "idx_leads_service")
+  @@index([statut], map: "idx_leads_statut")
+  @@index([telephone], map: "idx_leads_telephone")
   @@map("leads")
+}
+
+enum StatutLead {
+  nouveau
+  a_rappeler
+  contacte
+  converti
+  perdu
+
+  @@map("statut_lead")
+}
+
+enum TypeLogement {
+  maison
+  appartement
+  autre
+
+  @@map("type_logement_enum")
 }
