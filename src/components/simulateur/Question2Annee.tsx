@@ -14,8 +14,15 @@ interface Question2Props {
 export default function Question2Annee({ value, onChange, onNext, onBack }: Question2Props) {
   return (
     <div>
-      <h2 className="text-xl font-semibold text-gray-900 mb-1.5 leading-snug">
-        Quand votre maison a-t-elle ete construite ?
+      <div className="inline-block mb-4">
+        <span className="text-[11px] font-semibold text-[#1E40AF] bg-[#DBEAFE] px-3 py-1 rounded-md">
+          Caracteristiques du bati
+        </span>
+      </div>
+
+      <h2 className="text-xl md:text-2xl font-bold text-[#1E3A5F] leading-tight mb-2">
+        Quand votre maison a-t-elle ete{" "}
+        <span className="text-[#2563EB]">construite</span> ?
       </h2>
       <p className="text-sm text-gray-500 mb-6 leading-relaxed">
         MaPrimeRenov&apos; exige une anciennete minimum de 15 ans.
@@ -23,29 +30,29 @@ export default function Question2Annee({ value, onChange, onNext, onBack }: Ques
 
       <div className="grid grid-cols-2 gap-2.5 mb-6">
         <Choice
-          icon="🏛️"
+          icon="historical"
           title="Avant 1975"
           subtitle="+50 ans"
           selected={value === "av75"}
           onClick={() => onChange("av75")}
         />
         <Choice
-          icon="🧱"
+          icon="bricks"
           title="1975 — 1990"
           subtitle="35-50 ans"
           selected={value === "75-90"}
           onClick={() => onChange("75-90")}
         />
         <Choice
-          icon="🏡"
-          title="1990 — 2010"
+          icon="house"
+          title="1990 — 2011"
           subtitle="15-35 ans"
           selected={value === "90-10"}
           onClick={() => onChange("90-10")}
         />
         <Choice
-          icon="🆕"
-          title="Apres 2010"
+          icon="new"
+          title="Apres 2012"
           subtitle="-15 ans"
           selected={value === "ap10"}
           onClick={() => onChange("ap10")}
@@ -53,7 +60,7 @@ export default function Question2Annee({ value, onChange, onNext, onBack }: Ques
       </div>
 
       <BtnNext onClick={onNext} disabled={!value}>
-        Continuer →
+        Continuer
       </BtnNext>
       <BtnBack onClick={onBack} />
     </div>

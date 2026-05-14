@@ -37,7 +37,7 @@ export default function FormulaireContact({
         Un conseiller local vous rappellera sous 24h avec votre resultat detaille.
       </p>
 
-      {/* CHAMP 1 : Nom complet (UN SEUL champ) */}
+      {/* CHAMP 1 : Nom complet */}
       <Field
         label="Nom complet"
         placeholder="Jean Dupont"
@@ -62,7 +62,7 @@ export default function FormulaireContact({
         onChange={(v) => update("telephone", v)}
       />
 
-      {/* Consentements (cases a cocher) */}
+      {/* Consentements */}
       <div className="bg-gray-50 rounded-lg p-3.5 mb-4">
         <ConsentItem
           checked={data.consent1}
@@ -71,18 +71,9 @@ export default function FormulaireContact({
           tagColor="r"
         >
           J&apos;accepte d&apos;etre contacte(e) par telephone par un conseiller{" "}
-          <strong className="text-gray-900">MaFranceLocale.fr</strong> pour organiser
-          mon diagnostic gratuit.
+          <strong className="text-gray-900">MaFranceLocale.fr</strong> dans le cadre de mon projet de rénovation, et de recevoir des offres et conseils. Mes données sont utilisées uniquement à cet effet et ne  seront jamais revendues.
         </ConsentItem>
-        <ConsentItem
-          checked={data.consent2}
-          onToggle={() => update("consent2", !data.consent2)}
-          tag="Optionnel"
-          tagColor="o"
-        >
-          J&apos;accepte d&apos;etre mis(e) en relation avec des partenaires renovation
-          de mon departement.
-        </ConsentItem>
+        
       </div>
 
       <p className="text-[11px] text-gray-400 leading-relaxed mb-4">

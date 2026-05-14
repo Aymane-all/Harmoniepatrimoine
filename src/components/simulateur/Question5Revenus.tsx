@@ -29,19 +29,27 @@ export default function Question5Revenus({
 
   return (
     <div>
-      <h2 className="text-xl font-semibold text-gray-900 mb-1.5 leading-snug">
-        Quel est votre revenu fiscal de reference annuel ?
+      <div className="inline-block mb-4">
+        <span className="text-[11px] font-semibold text-[#1E40AF] bg-[#DBEAFE] px-3 py-1 rounded-md">
+          Situation fiscale
+        </span>
+      </div>
+
+      <h2 className="text-xl md:text-2xl font-bold text-[#1E3A5F] leading-tight mb-2">
+        Quel est votre{" "}
+        <span className="text-[#2563EB]">revenu fiscal</span>{" "}
+        annuel ?
       </h2>
       <p className="text-sm text-gray-500 mb-6 leading-relaxed">
         Information confidentielle — uniquement pour calculer votre eligibilite MaPrimeRenov&apos;.
       </p>
 
       <div className="mb-6">
-        <div className="flex justify-between items-center mb-2.5">
+        <div className="flex justify-between items-center mb-3">
           <span className="text-xs font-semibold text-gray-600 uppercase tracking-wider">
             Revenu fiscal annuel
           </span>
-          <span className="text-lg font-semibold text-brand-500">{displayValue}</span>
+          <span className="text-lg font-bold text-[#2563EB]">{displayValue}</span>
         </div>
 
         <input
@@ -51,29 +59,29 @@ export default function Question5Revenus({
           step={1000}
           value={rev}
           onChange={(e) => onChangeRev(parseInt(e.target.value))}
-          className="w-full h-1 rounded-full appearance-none cursor-pointer outline-none"
+          className="w-full h-1.5 rounded-full appearance-none cursor-pointer outline-none"
           style={{
-            background: `linear-gradient(90deg, #1A6BCC ${sliderPct}%, #E0E0E0 ${sliderPct}%)`,
+            background: `linear-gradient(90deg, #2563EB ${sliderPct}%, #E5E7EB ${sliderPct}%)`,
           }}
         />
 
-        <div className="flex justify-between mt-1.5">
+        <div className="flex justify-between mt-2">
           {["0 €", "20 000 €", "40 000 €", "60 000 €", "80 000 €+"].map((t) => (
-            <span key={t} className="text-[11px] text-gray-400">{t}</span>
+            <span key={t} className="text-[10px] text-gray-400">{t}</span>
           ))}
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-2.5 mb-6 mt-2">
+      <div className="grid grid-cols-2 gap-2.5 mb-6 mt-4">
         <Choice
-          icon="👤"
+          icon="user"
           title="Seul(e) ou couple"
           subtitle="Sans enfant"
           selected={foyer === "seul"}
           onClick={() => onChangeFoyer("seul")}
         />
         <Choice
-          icon="👨‍👩‍👧"
+          icon="family"
           title="Avec enfant(s)"
           subtitle="Plafonds ajustes"
           selected={foyer === "famille"}
@@ -82,7 +90,7 @@ export default function Question5Revenus({
       </div>
 
       <BtnNext onClick={onNext} disabled={!foyer}>
-        Continuer →
+        Continuer
       </BtnNext>
       <BtnBack onClick={onBack} />
 
@@ -90,21 +98,21 @@ export default function Question5Revenus({
         input[type="range"]::-webkit-slider-thumb {
           -webkit-appearance: none;
           appearance: none;
-          width: 20px;
-          height: 20px;
+          width: 22px;
+          height: 22px;
           border-radius: 50%;
-          background: #1A6BCC;
+          background: #2563EB;
           border: 3px solid #FFF;
-          box-shadow: 0 0 0 2px #1A6BCC;
+          box-shadow: 0 0 0 2px #2563EB, 0 2px 8px rgba(37, 99, 235, 0.3);
           cursor: pointer;
         }
         input[type="range"]::-moz-range-thumb {
-          width: 20px;
-          height: 20px;
+          width: 22px;
+          height: 22px;
           border-radius: 50%;
-          background: #1A6BCC;
+          background: #2563EB;
           border: 3px solid #FFF;
-          box-shadow: 0 0 0 2px #1A6BCC;
+          box-shadow: 0 0 0 2px #2563EB, 0 2px 8px rgba(37, 99, 235, 0.3);
           cursor: pointer;
         }
       `}</style>

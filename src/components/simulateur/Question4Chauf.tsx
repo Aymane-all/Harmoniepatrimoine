@@ -14,8 +14,16 @@ interface Question4Props {
 export default function Question4Chauf({ value, onChange, onNext, onBack }: Question4Props) {
   return (
     <div>
-      <h2 className="text-xl font-semibold text-gray-900 mb-1.5 leading-snug">
-        Quel est votre systeme de chauffage actuel ?
+      <div className="inline-block mb-4">
+        <span className="text-[11px] font-semibold text-[#1E40AF] bg-[#DBEAFE] px-3 py-1 rounded-md">
+          Equipements
+        </span>
+      </div>
+
+      <h2 className="text-xl md:text-2xl font-bold text-[#1E3A5F] leading-tight mb-2">
+        Quel est votre systeme de{" "}
+        <span className="text-[#2563EB]">chauffage</span>{" "}
+        actuel ?
       </h2>
       <p className="text-sm text-gray-500 mb-6 leading-relaxed">
         Ce choix determine le montant de votre prime CEE.
@@ -23,7 +31,7 @@ export default function Question4Chauf({ value, onChange, onNext, onBack }: Ques
 
       <div className="flex flex-col gap-2.5 mb-6">
         <Choice
-          icon="🛢️"
+          icon="oilTank"
           title="Chaudiere fioul"
           subtitle="Prime CEE maximale"
           selected={value === "fioul"}
@@ -31,7 +39,7 @@ export default function Question4Chauf({ value, onChange, onNext, onBack }: Ques
           showDot
         />
         <Choice
-          icon="🔥"
+          icon="flame"
           title="Chaudiere gaz"
           subtitle="Prime CEE elevee"
           selected={value === "gaz"}
@@ -39,7 +47,7 @@ export default function Question4Chauf({ value, onChange, onNext, onBack }: Ques
           showDot
         />
         <Choice
-          icon="⚡"
+          icon="bolt"
           title="Chauffage electrique"
           subtitle="Prime CEE standard"
           selected={value === "elec"}
@@ -47,7 +55,7 @@ export default function Question4Chauf({ value, onChange, onNext, onBack }: Ques
           showDot
         />
         <Choice
-          icon="🌿"
+          icon="leaf"
           title="Bois / PAC / Autre"
           subtitle="Prime CEE variable"
           selected={value === "autre"}
@@ -57,7 +65,7 @@ export default function Question4Chauf({ value, onChange, onNext, onBack }: Ques
       </div>
 
       <BtnNext onClick={onNext} disabled={!value}>
-        Continuer →
+        Continuer
       </BtnNext>
       <BtnBack onClick={onBack} />
     </div>

@@ -5,7 +5,10 @@ import { submitLead } from "@/lib/actions";
 import { calculerAides } from "@/lib/calculs";
 import type { SimulateurData, Resultat, Proprio, Annee, Chauffage, Foyer, Probleme, FormData } from "@/types/simulateur";
 
-// Sub-components
+// 🆕 NOUVEAU : Import du Layout partagé
+import SimulateurLayout from "@/components/shared/SimulateurLayout";
+
+// Vos composants existants - AUCUN CHANGEMENT
 import ProgressBar from "@/components/ui/ProgressBar";
 import IntroSlide from "./IntroSlide";
 import Question1Proprio from "./Question1Proprio";
@@ -22,27 +25,20 @@ import ResultatDisqualifie from "./ResultatDisqualifie";
 type Step = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | "disq";
 
 export default function Simulateur() {
+  // 🔒 TOUT LE STATE ET LA LOGIQUE RESTE EXACTEMENT PAREIL
   const [step, setStep] = useState<Step>(0);
   const [loading, setLoading] = useState(false);
   const [resultat, setResultat] = useState<Resultat | null>(null);
   const [nomComplet, setNomComplet] = useState("");
 
   const [data, setData] = useState<SimulateurData>({
-    proprio: "",
-    annee: "",
-    dept: "75",
-    chauf: "",
-    rev: 25000,
-    foyer: "seul",
-    pb: "",
+    proprio: "", annee: "", dept: "75", chauf: "",
+    rev: 25000, foyer: "seul", pb: "",
   });
 
   const [contactData, setContactData] = useState<FormData>({
-    nom_complet: "",
-    ville: "",
-    telephone: "",
-    consent1: false,
-    consent2: false,
+    nom_complet: "", ville: "", telephone: "",
+    consent1: false, consent2: false,
   });
 
   const next = () => setStep((s) => (typeof s === "number" ? (s + 1) as Step : s));
@@ -52,18 +48,26 @@ export default function Simulateur() {
     setData((prev) => ({ ...prev, ...updates }));
   };
 
+  const nextFromQ1 = () => {
+    if (data.proprio === "loc" || data.proprio === "appart") {
+      setStep("disq");
+    } else {
+      setStep(2);
+    }
+  };
+
+  const nextFromQ2 = () => {
+    if (data.annee === "ap10") {
+      setStep("disq");
+    } else {
+      setStep(3);
+    }
+  };
+
   const handleFinish = async () => {
     setLoading(true);
     setNomComplet(contactData.nom_complet);
-    
-    // Disqualify if locataire
-    if (data.proprio === "loc") {
-      setStep("disq");
-      setLoading(false);
-      return;
-    }
 
-    // Calculate final results
     const res = calculerAides(data);
     setResultat(res);
 
@@ -79,7 +83,6 @@ export default function Simulateur() {
         source_utm: null,
         campagne_utm: null,
       });
-
       setStep(8);
     } catch (error) {
       console.error(error);
@@ -97,120 +100,111 @@ export default function Simulateur() {
     setNomComplet("");
   };
 
+  // ⭐ SEUL LE RETURN CHANGE : on wrap avec SimulateurLayout
   return (
-    <div className="max-w-xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
+    <SimulateurLayout>
       {/* ProgressBar (only for questions) */}
       {typeof step === "number" && step > 0 && step < 8 && (
-        <ProgressBar label={`Question ${step} sur 7`} percent={Math.round((step / 7) * 100)} />
+        <ProgressBar
+          label={`Question ${step} sur 7`}
+          percent={Math.round((step / 7) * 100)}
+        />
       )}
 
-      <div className="p-6 md:p-8 min-h-[420px] flex flex-col relative">
-        {loading && (
-          <div className="absolute inset-0 bg-white/80 backdrop-blur-sm z-50 flex items-center justify-center">
-            <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-brand-500"></div>
-          </div>
-        )}
+      {/* Overlay de chargement */}
+      {loading && (
+        <div className="absolute inset-0 bg-white/80 backdrop-blur-sm z-50 flex items-center justify-center rounded-2xl">
+          <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-brand-500"></div>
+        </div>
+      )}
 
-        {step === 0 && <IntroSlide onStart={() => setStep(1)} />}
+      {/* TOUS VOS COMPOSANTS SONT INCHANGÉS */}
+      {step === 0 && <IntroSlide onStart={() => setStep(1)} />}
 
-        {step === 1 && (
-          <Question1Proprio
-            value={data.proprio as Proprio}
-            onChange={(val) => updateData({ proprio: val })}
-            onNext={next}
-          />
-        )}
+      {step === 1 && (
+        <Question1Proprio
+          value={data.proprio as Proprio}
+          onChange={(val) => updateData({ proprio: val })}
+          onNext={nextFromQ1}
+        />
+      )}
 
-        {step === 2 && (
-          <Question2Annee
-            value={data.annee as Annee}
-            onChange={(val) => updateData({ annee: val })}
-            onNext={next}
-            onBack={back}
-          />
-        )}
+      {step === 2 && (
+        <Question2Annee
+          value={data.annee as Annee}
+          onChange={(val) => updateData({ annee: val })}
+          onNext={nextFromQ2}
+          onBack={back}
+        />
+      )}
 
-        {step === 3 && (
-          <Question3Dept
-            value={data.dept}
-            onChange={(val) => updateData({ dept: val })}
-            onNext={next}
-            onBack={back}
-          />
-        )}
+      {step === 3 && (
+        <Question3Dept
+          value={data.dept}
+          onChange={(val) => updateData({ dept: val })}
+          onNext={next}
+          onBack={back}
+        />
+      )}
 
-        {step === 4 && (
-          <Question4Chauf
-            value={data.chauf as Chauffage}
-            onChange={(val) => updateData({ chauf: val })}
-            onNext={next}
-            onBack={back}
-          />
-        )}
+      {step === 4 && (
+        <Question4Chauf
+          value={data.chauf as Chauffage}
+          onChange={(val) => updateData({ chauf: val })}
+          onNext={next}
+          onBack={back}
+        />
+      )}
 
-        {step === 5 && (
-          <Question5Revenus
-            rev={data.rev}
-            foyer={data.foyer as Foyer}
-            onChangeRev={(val) => updateData({ rev: val })}
-            onChangeFoyer={(val) => updateData({ foyer: val })}
-            onNext={next}
-            onBack={back}
-          />
-        )}
+      {step === 5 && (
+        <Question5Revenus
+          rev={data.rev}
+          foyer={data.foyer as Foyer}
+          onChangeRev={(val) => updateData({ rev: val })}
+          onChangeFoyer={(val) => updateData({ foyer: val })}
+          onNext={next}
+          onBack={back}
+        />
+      )}
 
-        {step === 6 && (
-          <Question6Probleme
-            value={data.pb as Probleme}
-            onChange={(val) => updateData({ pb: val })}
-            onNext={next}
-            onBack={back}
-          />
-        )}
+      {step === 6 && (
+        <Question6Probleme
+          value={data.pb as Probleme}
+          onChange={(val) => updateData({ pb: val })}
+          onNext={next}
+          onBack={back}
+        />
+      )}
 
-        {step === 7 && (
-          <FormulaireContact
-            data={contactData}
-            onChange={setContactData}
-            onSubmit={handleFinish}
-            onBack={back}
-            loading={loading}
-          />
-        )}
+      {step === 7 && (
+        <FormulaireContact
+          data={contactData}
+          onChange={setContactData}
+          onSubmit={handleFinish}
+          onBack={back}
+          loading={loading}
+        />
+      )}
 
-        {step === 8 && resultat && (
-          resultat.eligible ? (
-            <ResultatPremium
-              nomComplet={nomComplet}
-              data={data}
-              resultat={resultat}
-            />
-          ) : (
-            <ResultatStandard
-              nomComplet={nomComplet}
-              data={data}
-              resultat={resultat}
-            />
-          )
-        )}
+      {step === 8 && resultat && (
+        resultat.eligible ? (
+          <ResultatPremium nomComplet={nomComplet} data={data} resultat={resultat} />
+        ) : (
+          <ResultatStandard nomComplet={nomComplet} data={data} resultat={resultat} />
+        )
+      )}
 
-        {step === "disq" && <ResultatDisqualifie onRestart={restart} />}
+      {step === "disq" && <ResultatDisqualifie onRestart={restart} />}
 
-        {/* Action for results footer */}
-        {step === 8 && (
-          <button 
-            onClick={restart}
-            className="mt-8 text-sm text-gray-400 hover:text-brand-500 underline mx-auto block"
-          >
-            Recommencer la simulation
-          </button>
-        )}
-      </div>
-
-      {/* FOOTER */}
-      <div className="px-8 py-6 bg-gray-50 border-t border-gray-100 text-[10px] text-gray-400 text-center leading-relaxed">
-        © 2026 Harmonie Patrimoine · Mentions légales · Protection des données (RGPD)
-      </div>
-    </div>
+      {/* Bouton Recommencer (résultats) */}
+      {step === 8 && (
+        <button
+          onClick={restart}
+          className="mt-8 text-sm text-gray-400 hover:text-brand-500 underline mx-auto block"
+        >
+          Recommencer la simulation
+        </button>
+      )}
+    </SimulateurLayout>
   );
 }

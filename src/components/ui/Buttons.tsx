@@ -1,5 +1,7 @@
 "use client";
 
+import { IconArrowLeft } from "./Icons";
+
 interface BtnNextProps {
   onClick: () => void;
   disabled?: boolean;
@@ -14,10 +16,10 @@ export function BtnNext({ onClick, disabled, children, className = "" }: BtnNext
       onClick={onClick}
       disabled={disabled}
       className={`
-        w-full py-3 px-4 rounded-lg text-sm font-semibold transition-colors
+        w-full py-3.5 px-6 rounded-xl text-sm font-semibold transition-colors
         ${disabled
           ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-          : "bg-gray-900 text-white hover:bg-brand-500 cursor-pointer"
+          : "bg-[#111827] hover:bg-[#1F2937] text-white cursor-pointer"
         }
         ${className}
       `}
@@ -36,9 +38,14 @@ export function BtnBack({ onClick }: BtnBackProps) {
     <button
       type="button"
       onClick={onClick}
-      className="block bg-transparent border-none text-gray-400 hover:text-gray-900 text-sm cursor-pointer py-2 mt-2 transition-colors"
+      className="
+        mt-3 flex items-center gap-1.5 mx-auto
+        bg-transparent border-none text-gray-500 hover:text-gray-900
+        text-sm cursor-pointer py-2 transition-colors
+      "
     >
-      ← Retour
+      <IconArrowLeft size={14} />
+      Retour
     </button>
   );
 }
