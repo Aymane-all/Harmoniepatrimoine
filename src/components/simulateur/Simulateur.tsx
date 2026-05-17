@@ -3,7 +3,9 @@
 import React, { useState } from "react";
 import { submitLead } from "@/lib/actions";
 import { calculerAides } from "@/lib/calculs";
-import type { SimulateurData, Resultat, Proprio, Annee, Chauffage, Foyer, Probleme, FormData } from "@/types/simulateur";
+import type { SimulateurData, Resultat, Proprio, Annee, Chauffage, Foyer, Probleme } from "@/types/simulateur";
+import type { FormData } from "@/components/shared/FormulaireContact";
+import { EMPTY_FORM } from "@/components/shared/FormulaireContact";
 
 // 🆕 NOUVEAU : Import du Layout partagé
 import SimulateurLayout from "@/components/shared/SimulateurLayout";
@@ -17,7 +19,7 @@ import Question3Dept from "./Question3Dept";
 import Question4Chauf from "./Question4Chauf";
 import Question5Revenus from "./Question5Revenus";
 import Question6Probleme from "./Question6Probleme";
-import FormulaireContact from "./FormulaireContact";
+import FormulaireContact from "../shared/FormulaireContact";
 import ResultatStandard from "./ResultatStandard";
 import ResultatPremium from "./ResultatPremium";
 import ResultatDisqualifie from "./ResultatDisqualifie";
@@ -36,10 +38,7 @@ export default function Simulateur() {
     rev: 25000, foyer: "seul", pb: "",
   });
 
-  const [contactData, setContactData] = useState<FormData>({
-    nom_complet: "", ville: "", telephone: "",
-    consent1: false, consent2: false,
-  });
+  const [contactData, setContactData] = useState<FormData>(EMPTY_FORM);
 
   const next = () => setStep((s) => (typeof s === "number" ? (s + 1) as Step : s));
   const back = () => setStep((s) => (typeof s === "number" ? (s - 1) as Step : s));
@@ -80,6 +79,7 @@ export default function Simulateur() {
         annee_construction: data.annee === "av75" ? 1970 : data.annee === "75-90" ? 1985 : data.annee === "90-10" ? 2000 : 2015,
         resultat_simulation: res as any,
         valeur_simulation: res.total,
+        slug_simulateur: "simulateur-aides",
         source_utm: null,
         campagne_utm: null,
       });
@@ -95,14 +95,14 @@ export default function Simulateur() {
   const restart = () => {
     setStep(0);
     setData({ proprio: "", annee: "", dept: "75", chauf: "", rev: 25000, foyer: "seul", pb: "" });
-    setContactData({ nom_complet: "", ville: "", telephone: "", consent1: false, consent2: false });
+    setContactData(EMPTY_FORM);
     setResultat(null);
     setNomComplet("");
   };
 
   // ⭐ SEUL LE RETURN CHANGE : on wrap avec SimulateurLayout
   return (
-    <SimulateurLayout>
+    <SimulateurLayout onBack={typeof step === "number" && step > 0 && step < 8 ? back : undefined}>
       {/* ProgressBar (only for questions) */}
       {typeof step === "number" && step > 0 && step < 8 && (
         <ProgressBar

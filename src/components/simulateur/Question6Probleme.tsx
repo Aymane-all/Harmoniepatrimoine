@@ -35,6 +35,8 @@ export default function Question6Probleme({ value, onChange, onNext, onBack }: Q
           subtitle="Mauvaise isolation"
           selected={value === "froid"}
           onClick={() => onChange("froid")}
+          layout="vertical"
+          showDot
         />
         <Choice
           icon="droplet"
@@ -42,6 +44,8 @@ export default function Question6Probleme({ value, onChange, onNext, onBack }: Q
           subtitle="Moisissures, air lourd"
           selected={value === "humidite"}
           onClick={() => onChange("humidite")}
+          layout="vertical"
+          showDot
         />
         <Choice
           icon="euro"
@@ -49,6 +53,8 @@ export default function Question6Probleme({ value, onChange, onNext, onBack }: Q
           subtitle="Charges trop hautes"
           selected={value === "factures"}
           onClick={() => onChange("factures")}
+          layout="vertical"
+          showDot
         />
         <Choice
           icon="search"
@@ -56,13 +62,14 @@ export default function Question6Probleme({ value, onChange, onNext, onBack }: Q
           subtitle="Je veux savoir"
           selected={value === "droits"}
           onClick={() => onChange("droits")}
+          layout="vertical"
+          showDot
         />
       </div>
 
       <BtnNext onClick={onNext} disabled={!value}>
         Voir le formulaire
       </BtnNext>
-      <BtnBack onClick={onBack} />
     </div>
   );
 }

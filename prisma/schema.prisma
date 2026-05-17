@@ -49,8 +49,10 @@ model Keyword {
 model Simulateur {
   id_simulateur  BigInt    @id @default(autoincrement())
   id_service     BigInt
+  slug           String?   @unique @db.VarChar(100)
   titre          String    @db.VarChar(150)
   type_calcul    String    @db.VarChar(80)
+  questions      Json?
   champ1_label   String?   @db.VarChar(100)
   champ1_type    String?   @db.VarChar(50)
   champ1_min     Decimal?  @db.Decimal(8, 2)
@@ -66,6 +68,7 @@ model Simulateur {
   actif          Boolean?  @default(true)
   created_at     DateTime? @default(now()) @db.Timestamptz(6)
   articles       Article[]
+  leads          Lead[]
   service        Service   @relation(fields: [id_service], references: [id_service], onUpdate: NoAction, map: "fk_simulateurs_service")
 
   @@index([id_service], map: "idx_simulateurs_service")
@@ -80,6 +83,8 @@ model Article {
   titre             String     @db.VarChar(200)
   meta_description  String?    @db.VarChar(300)
   contenu           String?
+  image_url         String?    @db.VarChar(500)
+  image_alt         String?    @db.VarChar(200)
   date_creation     DateTime?  @default(now()) @db.Timestamptz(6)
   date_modification DateTime?  @db.Timestamptz(6)
   actif             Boolean?   @default(true)
@@ -100,6 +105,7 @@ model Lead {
   id_article          BigInt?
   id_service          BigInt?
   id_keyword          BigInt?
+  id_simulateur       BigInt?
   nom_complet         String        @db.VarChar(200)
   telephone           String        @db.VarChar(20)
   ville               String        @db.VarChar(100)
@@ -119,11 +125,13 @@ model Lead {
   article             Article?      @relation(fields: [id_article], references: [id_article], onUpdate: NoAction, map: "fk_leads_article")
   keyword             Keyword?      @relation(fields: [id_keyword], references: [id_keyword], onUpdate: NoAction, map: "fk_leads_keyword")
   service             Service?      @relation(fields: [id_service], references: [id_service], onUpdate: NoAction, map: "fk_leads_service")
+  simulateur          Simulateur?   @relation(fields: [id_simulateur], references: [id_simulateur], onUpdate: NoAction, map: "fk_leads_simulateur")
 
   @@index([id_article], map: "idx_leads_article")
   @@index([date_soumission(sort: Desc)], map: "idx_leads_date_soumission")
   @@index([id_keyword], map: "idx_leads_keyword")
   @@index([id_service], map: "idx_leads_service")
+  @@index([id_simulateur], map: "idx_leads_simulateur")
   @@index([statut], map: "idx_leads_statut")
   @@index([telephone], map: "idx_leads_telephone")
   @@map("leads")

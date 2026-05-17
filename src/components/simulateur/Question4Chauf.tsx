@@ -29,45 +29,44 @@ export default function Question4Chauf({ value, onChange, onNext, onBack }: Ques
         Ce choix determine le montant de votre prime CEE.
       </p>
 
-      <div className="flex flex-col gap-2.5 mb-6">
+      <div className="grid grid-cols-2 gap-3 mb-6">
         <Choice
           icon="oilTank"
           title="Chaudiere fioul"
-          subtitle="Prime CEE maximale"
           selected={value === "fioul"}
           onClick={() => onChange("fioul")}
           showDot
+          layout="vertical"
         />
         <Choice
           icon="flame"
           title="Chaudiere gaz"
-          subtitle="Prime CEE elevee"
           selected={value === "gaz"}
           onClick={() => onChange("gaz")}
           showDot
+          layout="vertical"
         />
         <Choice
           icon="bolt"
           title="Chauffage electrique"
-          subtitle="Prime CEE standard"
           selected={value === "elec"}
           onClick={() => onChange("elec")}
           showDot
+          layout="vertical"
         />
         <Choice
           icon="leaf"
           title="Bois / PAC / Autre"
-          subtitle="Prime CEE variable"
           selected={value === "autre"}
           onClick={() => onChange("autre")}
           showDot
+          layout="vertical"
         />
       </div>
 
       <BtnNext onClick={onNext} disabled={!value}>
         Continuer
       </BtnNext>
-      <BtnBack onClick={onBack} />
     </div>
   );
 }

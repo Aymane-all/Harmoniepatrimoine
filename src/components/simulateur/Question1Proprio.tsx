@@ -29,30 +29,30 @@ export default function Question1Proprio({ value, onChange, onNext }: Question1P
         Ce simulateur est reserve aux proprietaires de maison de plus de 15 ans.
       </p>
 
-      <div className="flex flex-col gap-2.5 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-8">
         <Choice
           icon="house"
-          title="Oui — maison individuelle"
-          subtitle="Pavillon, villa, maison de campagne"
+          title="Propriétaire d'une Maison"
           selected={value === "maison"}
           onClick={() => onChange("maison")}
           showDot
+          layout="vertical"
         />
         <Choice
           icon="building"
-          title="Proprietaire d'un appartement"
-          subtitle="Copropriete"
+          title="Propriétaire d'un Appartement"
           selected={value === "appart"}
           onClick={() => onChange("appart")}
           showDot
+          layout="vertical"
         />
         <Choice
           icon="key"
           title="Locataire"
-          subtitle="Je n'ai pas la propriete"
           selected={value === "loc"}
           onClick={() => onChange("loc")}
           showDot
+          layout="vertical"
         />
       </div>
 

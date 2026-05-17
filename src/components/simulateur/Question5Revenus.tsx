@@ -79,6 +79,8 @@ export default function Question5Revenus({
           subtitle="Sans enfant"
           selected={foyer === "seul"}
           onClick={() => onChangeFoyer("seul")}
+          layout="vertical"
+          showDot
         />
         <Choice
           icon="family"
@@ -86,13 +88,14 @@ export default function Question5Revenus({
           subtitle="Plafonds ajustes"
           selected={foyer === "famille"}
           onClick={() => onChangeFoyer("famille")}
+          layout="vertical"
+          showDot
         />
       </div>
 
       <BtnNext onClick={onNext} disabled={!foyer}>
         Continuer
       </BtnNext>
-      <BtnBack onClick={onBack} />
 
       <style jsx>{`
         input[type="range"]::-webkit-slider-thumb {

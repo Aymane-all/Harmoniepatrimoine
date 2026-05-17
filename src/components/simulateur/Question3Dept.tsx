@@ -54,7 +54,6 @@ export default function Question3Dept({ value, onChange, onNext, onBack }: Quest
       <BtnNext onClick={onNext} disabled={!value}>
         Continuer
       </BtnNext>
-      <BtnBack onClick={onBack} />
     </div>
   );
 }

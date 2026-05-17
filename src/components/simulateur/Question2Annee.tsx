@@ -35,6 +35,8 @@ export default function Question2Annee({ value, onChange, onNext, onBack }: Ques
           subtitle="+50 ans"
           selected={value === "av75"}
           onClick={() => onChange("av75")}
+          layout="vertical"
+          showDot
         />
         <Choice
           icon="bricks"
@@ -42,6 +44,8 @@ export default function Question2Annee({ value, onChange, onNext, onBack }: Ques
           subtitle="35-50 ans"
           selected={value === "75-90"}
           onClick={() => onChange("75-90")}
+          layout="vertical"
+          showDot
         />
         <Choice
           icon="house"
@@ -49,20 +53,23 @@ export default function Question2Annee({ value, onChange, onNext, onBack }: Ques
           subtitle="15-35 ans"
           selected={value === "90-10"}
           onClick={() => onChange("90-10")}
+          layout="vertical"
+          showDot
         />
         <Choice
           icon="new"
-          title="Apres 2012"
+          title="Apres 2011"
           subtitle="-15 ans"
           selected={value === "ap10"}
           onClick={() => onChange("ap10")}
+          layout="vertical"
+          showDot
         />
       </div>
 
       <BtnNext onClick={onNext} disabled={!value}>
         Continuer
       </BtnNext>
-      <BtnBack onClick={onBack} />
     </div>
   );
 }

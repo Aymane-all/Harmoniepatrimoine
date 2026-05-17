@@ -15,8 +15,22 @@ export async function submitLead(data: {
   consentement_rgpd: boolean;
   source_utm?: string | null;
   campagne_utm?: string | null;
+  slug_simulateur?: string;
 }) {
   try {
+    let id_simulateur: bigint | null = null;
+    let id_service: bigint | null = null;
+
+    if (data.slug_simulateur) {
+      const sim = await prisma.simulateur.findUnique({
+        where: { slug: data.slug_simulateur },
+      });
+      if (sim) {
+        id_simulateur = sim.id_simulateur;
+        id_service = sim.id_service;
+      }
+    }
+
     const lead = await prisma.lead.create({
       data: {
         nom_complet: data.nom_complet,
@@ -30,6 +44,8 @@ export async function submitLead(data: {
         consentement_rgpd: data.consentement_rgpd,
         source_utm: data.source_utm,
         campagne_utm: data.campagne_utm,
+        id_simulateur,
+        id_service,
         statut: "nouveau",
       },
     });

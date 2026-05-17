@@ -10,14 +10,15 @@
 interface IconProps {
     size?: number;
     className?: string;
+    style?: React.CSSProperties;
 }
 
 // ───── ICONES MAISON / LOGEMENT ─────
 
-export function IconHouse({ size = 24, className = "" }: IconProps) {
+export function IconHouse({ size = 24, className = "", style }: IconProps) {
     return (
         <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor"
-            strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className={className}>
+            strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className={className} style={style}>
             <path d="M3 11l9-8 9 8" />
             <path d="M5 10v10h14V10" />
             <path d="M10 20v-6h4v6" />
@@ -236,6 +237,148 @@ export function IconLock({ size = 16, className = "" }: IconProps) {
     );
 }
 
+export function IconThermometer({ size = 24, className = "" }: IconProps) {
+    return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className={className}>
+            <path d="M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z" />
+        </svg>
+    );
+}
+
+export function IconDoor({ size = 24, className = "" }: IconProps) {
+    return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className={className}>
+            <path d="M13 4h3a2 2 0 0 1 2 2v14" />
+            <path d="M2 20h20" />
+            <path d="M13 20V4a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v16" />
+        </svg>
+    );
+}
+
+export function IconWind({ size = 24, className = "" }: IconProps) {
+    return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className={className}>
+            <path d="M17.7 7.7A2.5 2.5 0 1 1 15.8 12H3" />
+            <path d="M9.9 4.7A2.5 2.5 0 1 1 8 9H3" />
+            <path d="M19.9 15.3A2.5 2.5 0 1 1 18 19H3" />
+        </svg>
+    );
+}
+
+export function IconCloud({ size = 24, className = "" }: IconProps) {
+    return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className={className}>
+            <path d="M17.5 19a5.5 5.5 0 0 0 2.5-10.5 8.5 8.5 0 1 0-14 3.5" />
+            <path d="M12 13v6" />
+            <path d="M9 16l3 3 3-3" />
+        </svg>
+    );
+}
+
+export function IconMoon({ size = 24, className = "" }: IconProps) {
+    return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className={className}>
+            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+        </svg>
+    );
+}
+
+export function IconAlertTriangle({ size = 24, className = "" }: IconProps) {
+    return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className={className}>
+            <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" />
+            <path d="M12 9v4" />
+            <path d="M12 17h.01" />
+        </svg>
+    );
+}
+
+export function IconAlertCircle({ size = 24, className = "" }: IconProps) {
+    return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className={className}>
+            <circle cx="12" cy="12" r="10" />
+            <line x1="12" y1="8" x2="12" y2="12" />
+            <line x1="12" y1="16" x2="12.01" y2="16" />
+        </svg>
+    );
+}
+
+export function IconX({ size = 24, className = "" }: IconProps) {
+    return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className={className}>
+            <path d="M18 6 6 18" />
+            <path d="m6 6 12 12" />
+        </svg>
+    );
+}
+
+export function IconMinus({ size = 24, className = "" }: IconProps) {
+    return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className={className}>
+            <path d="M5 12h14" />
+        </svg>
+    );
+}
+
+// ───── ICONES SOCIAUX ─────
+
+export function IconFacebook({ size = 24, className = "" }: IconProps) {
+    return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className={className}>
+            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+        </svg>
+    );
+}
+
+export function IconTwitter({ size = 24, className = "" }: IconProps) {
+    return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className={className}>
+            <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z" />
+        </svg>
+    );
+}
+
+export function IconInstagram({ size = 24, className = "" }: IconProps) {
+    return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className={className}>
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+        </svg>
+    );
+}
+
+export function IconMail({ size = 24, className = "" }: IconProps) {
+    return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className={className}>
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+            <polyline points="22,6 12,13 2,6" />
+        </svg>
+    );
+}
+
+export function IconChevronDown({ size = 24, className = "" }: IconProps) {
+    return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className={className}>
+            <polyline points="6 9 12 15 18 9" />
+        </svg>
+    );
+}
+
 // ───── MAP NOM → COMPOSANT (utile pour les choices) ─────
 
 export const ICONS = {
@@ -255,6 +398,35 @@ export const ICONS = {
     droplet: IconDroplet,
     euro: IconEuro,
     search: IconSearch,
+    check: IconCheck,
+    arrowLeft: IconArrowLeft,
+    lock: IconLock,
+    thermometer: IconThermometer,
+    door: IconDoor,
+    wind: IconWind,
+    cloud: IconCloud,
+    moon: IconMoon,
+    alertTriangle: IconAlertTriangle,
+    alertCircle: IconAlertCircle,
+    x: IconX,
+    minus: IconMinus,
+    facebook: IconFacebook,
+    twitter: IconTwitter,
+    instagram: IconInstagram,
+    mail: IconMail,
+    chevronDown: IconChevronDown,
+    menu: IconMenu,
 } as const;
+
+export function IconMenu({ size = 24, className = "" }: IconProps) {
+    return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className={className}>
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <line x1="3" y1="18" x2="21" y2="18" />
+        </svg>
+    );
+}
 
 export type IconName = keyof typeof ICONS;
