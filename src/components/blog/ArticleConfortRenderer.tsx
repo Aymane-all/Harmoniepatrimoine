@@ -287,7 +287,30 @@ function StatsSection({ s }: { s: SectionStats }) {
 // ============================================================
 // Section : CTA Premium (Dark Theme comme sur la maquette)
 // ============================================================
-function CtaSection({ s }: { s: SectionCta }) {
+function CtaSection({ s }: { s: any }) {
+  // Support both JSON schemas present in the database
+  const titre = s.titre || "";
+  const details = s.details || s.texte || "";
+  const bouton = s.bouton || s.bouton_texte || "Démarrer";
+  const note = s.note || s.subtexte || "";
+  
+  let lien = s.lien || "#";
+  if (s.simulateur_slug) {
+    lien = s.simulateur_slug.startsWith("/") ? s.simulateur_slug : `/${s.simulateur_slug}`;
+  }
+
+  // Normaliser le lien de confort vers la route réelle
+  if (lien === "/simulateur-confort") {
+    lien = "/simulateurCon";
+  }
+
+  // Déterminer la catégorie du simulateur dynamiquement
+  const category = lien.includes("aides") 
+    ? "Simulateur d'Aides Rénovation" 
+    : lien.includes("dpe") 
+      ? "Simulateur DPE Gratuit" 
+      : "Simulateur de Confort Gratuit";
+
   return (
     <section className="bg-[#1e293b] rounded-2xl p-8 md:p-10 text-white text-center my-10 shadow-lg relative overflow-hidden">
       {/* Subtle background decoration */}
@@ -295,23 +318,25 @@ function CtaSection({ s }: { s: SectionCta }) {
       <div className="absolute bottom-0 left-0 w-32 h-32 bg-indigo-600/10 rounded-full blur-2xl" />
 
       <span className="inline-block px-3 py-1 bg-blue-500/20 text-blue-400 text-xs font-semibold uppercase tracking-widest rounded-full mb-3">
-        Simulateur de Confort Gratuit
+        {category}
       </span>
       <h3 className="text-xl md:text-2xl font-extrabold mb-3 leading-tight tracking-tight">
-        {s.titre}
+        {titre}
       </h3>
-      <p className="text-slate-350 text-xs md:text-sm mb-6 max-w-xl mx-auto text-slate-300">
-        {s.details}
+      <p className="text-slate-300 text-xs md:text-sm mb-6 max-w-xl mx-auto leading-relaxed">
+        {details}
       </p>
       <Link
-        href={s.lien || "#"}
-        className="inline-flex items-center gap-2 bg-[#2563eb] text-white font-semibold px-8 py-3.5 rounded-full text-sm md:text-base hover:bg-blue-700 active:scale-95 transition-all duration-150 shadow-md shadow-blue-500/20"
+        href={lien}
+        className="inline-flex items-center gap-2 bg-[#2563eb] text-white font-semibold px-8 py-3.5 rounded-full text-sm md:text-base hover:bg-blue-700 active:scale-95 transition-all duration-150 shadow-md shadow-blue-500/20 cursor-pointer"
       >
-        {s.bouton}
+        {bouton}
       </Link>
-      <p className="text-slate-400 text-xs mt-5 italic">
-        {s.note}
-      </p>
+      {note && (
+        <p className="text-slate-400 text-xs mt-5 italic">
+          {note}
+        </p>
+      )}
     </section>
   );
 }
@@ -492,7 +517,9 @@ function FaqSection({ s }: { s: SectionFaq }) {
             >
               <button
                 onClick={() => setOpenIdx(isOpen ? null : i)}
-                className="w-full flex items-center justify-between p-5 text-left font-bold text-gray-900 text-sm md:text-base hover:bg-slate-50 transition-colors"
+                aria-expanded={isOpen}
+                aria-controls={`faq-answer-${i}`}
+                className="w-full flex items-center justify-between p-5 text-left font-bold text-gray-900 text-sm md:text-base hover:bg-slate-50 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500/20 rounded-t-2xl"
               >
                 <span>{item.question}</span>
                 <span className={`text-xl transform transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}>
@@ -500,6 +527,9 @@ function FaqSection({ s }: { s: SectionFaq }) {
                 </span>
               </button>
               <div 
+                id={`faq-answer-${i}`}
+                role="region"
+                aria-label={item.question}
                 className={`transition-all duration-200 ease-in-out ${
                   isOpen ? "max-h-[300px] border-t border-gray-100 p-5 opacity-100" : "max-h-0 opacity-0 overflow-hidden"
                 }`}

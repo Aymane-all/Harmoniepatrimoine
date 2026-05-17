@@ -1,5 +1,3 @@
-"use client";
-
 const ETAPES = [
   {
     num: "1",

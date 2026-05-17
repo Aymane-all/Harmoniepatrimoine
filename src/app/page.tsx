@@ -9,9 +9,9 @@ import ArticlesSection from "@/components/home/ArticlesSection";
 import ContactSection from "@/components/home/ContactSection";
 
 export const metadata = {
-  title: "MaFranceLocale — Simulateurs gratuits pour votre logement",
+  title: "Ma France Locale — Estimez vos Aides Rénovation, DPE & Confort",
   description:
-    "Evaluez gratuitement les aides, le confort et le DPE de votre logement en 2 minutes. Sans engagement, accompagnement local.",
+    "Estimez gratuitement vos aides financières de rénovation énergétique (MaPrimeRénov' 2026), votre classe DPE et le confort de votre maison en 2 minutes.",
 };
 
 export default function HomePage() {

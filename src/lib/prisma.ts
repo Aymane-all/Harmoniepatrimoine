@@ -1,17 +1,29 @@
 import { PrismaClient } from "@prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
-
-const prismaClientSingleton = () => {
-  const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
-  return new PrismaClient({ adapter });
-};
+import { Pool } from "pg";
 
 const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;
+  pool: Pool | undefined;
 };
 
-const prisma = globalForPrisma.prisma ?? prismaClientSingleton();
+// Singleton database pool with limited connection count to prevent exhaustion
+const pool = globalForPrisma.pool ?? new Pool({
+  connectionString: process.env.DATABASE_URL!,
+  max: 5, // Limit connections per pool
+  idleTimeoutMillis: 15000, // Close idle connections quickly
+  connectionTimeoutMillis: 5000,
+});
+
+if (process.env.NODE_ENV !== "production") {
+  globalForPrisma.pool = pool;
+}
+
+const adapter = new PrismaPg(pool);
+const prisma = globalForPrisma.prisma ?? new PrismaClient({ adapter });
+
+if (process.env.NODE_ENV !== "production") {
+  globalForPrisma.prisma = prisma;
+}
 
 export default prisma;
-
-if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;

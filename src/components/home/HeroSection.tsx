@@ -1,21 +1,26 @@
-"use client";
-
 import Link from "next/link";
+import Image from "next/image";
 
 export default function HeroSection() {
   return (
-    <section className="relative w-full py-16 md:py-40 flex items-center justify-center overflow-hidden">
-      {/* Background Image */}
-      <div
-        className="absolute inset-0 z-0 bg-no-repeat bg-center bg-cover"
-        style={{
-          backgroundImage: 'url("/images/hero-client.jpg")',
-        }}
-      >
+    <section
+      aria-label="Présentation"
+      className="relative w-full py-16 md:py-40 flex items-center justify-center overflow-hidden"
+    >
+      {/* Background Image — chargé en priorité (LCP) */}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src="/images/hero-client.jpg"
+          alt=""
+          fill
+          priority
+          className="object-cover object-center"
+          sizes="100vw"
+        />
         <div className="absolute inset-0 bg-black/40" />
       </div>
 
-      {/* Content with reveal effect */}
+      {/* Content */}
       <div className="relative z-10 max-w-4xl mx-auto px-4 md:px-6 text-center text-white">
         <div className="animate-float">
           <h1 className="text-3xl sm:text-4xl md:text-6xl font-extrabold leading-snug md:leading-tight mb-6 md:mb-8 tracking-tight">

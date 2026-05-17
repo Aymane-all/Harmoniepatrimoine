@@ -82,6 +82,7 @@ export default function BlogClient({ initialArticles }: BlogClientProps) {
                 setVisibleCount(4);
               }}
               placeholder="Cherchez des articles selon votre région / ville..."
+              aria-label="Rechercher des articles par région ou ville"
               className="w-full py-4 px-6 bg-gray-200/60 rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#2563EB]/40 placeholder:text-gray-500 italic shadow-inner transition-all"
             />
             {searchQuery && (
@@ -106,6 +107,9 @@ export default function BlogClient({ initialArticles }: BlogClientProps) {
                     <img
                       src={featuredMain.image}
                       alt={featuredMain.titre}
+                      loading="eager"
+                      fetchPriority="high"
+                      decoding="async"
                       className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500"
                     />
                   ) : (
@@ -127,6 +131,8 @@ export default function BlogClient({ initialArticles }: BlogClientProps) {
                         <img
                           src={a.image}
                           alt={a.titre}
+                          loading="lazy"
+                          decoding="async"
                           className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500"
                         />
                       ) : (
@@ -158,6 +164,8 @@ export default function BlogClient({ initialArticles }: BlogClientProps) {
                           <img
                             src={a.image}
                             alt={a.titre}
+                            loading="lazy"
+                            decoding="async"
                             className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-300"
                           />
                         ) : (

@@ -1,5 +1,3 @@
-"use client";
-
 import { IconEuro, IconClock, IconGauge } from "./Icons";
 
 export default function StatsSection() {

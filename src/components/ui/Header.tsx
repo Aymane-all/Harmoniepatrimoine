@@ -50,8 +50,10 @@ const Header = () => {
 
                     {/* Hamburger Menu (Mobile) */}
                     <button
-                        className="md:hidden text-gray-600 focus:outline-none"
+                        className="md:hidden text-gray-600 focus:outline-none hover:text-blue-600 transition-colors"
                         onClick={toggleMenu}
+                        aria-expanded={isMenuOpen}
+                        aria-label={isMenuOpen ? "Fermer le menu" : "Ouvrir le menu"}
                     >
                         {isMenuOpen ? <IconX size={24} /> : <IconMenu size={24} />}
                     </button>

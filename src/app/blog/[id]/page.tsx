@@ -9,6 +9,8 @@ import {
 import ArticleContent from "@/components/blog/ArticleContent";
 import ArticleConfortRenderer from "@/components/blog/ArticleConfortRenderer";
 
+export const revalidate = 3600; // Cache la page pendant 1 heure pour des performances ultra-rapides (10ms)
+
 // ============================================================
 // PAGE ARTICLE — /blog/[id]
 // ============================================================

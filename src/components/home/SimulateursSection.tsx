@@ -1,6 +1,5 @@
-"use client";
-
 import Link from "next/link";
+import Image from "next/image";
 import { IconArrowRight } from "./Icons";
 
 const SIMULATEURS = [
@@ -55,10 +54,12 @@ export default function SimulateursSection() {
                 </div>
               </div>
               <div className="md:w-[40%] h-64 md:h-auto overflow-hidden relative">
-                <img
+                <Image
                   src={s.img}
                   alt={s.titre}
-                  className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+                  fill
+                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+                  sizes="(max-width: 768px) 100vw, 40vw"
                 />
                 <div className="absolute inset-0 bg-blue-600/0 group-hover:bg-blue-600/10 transition-colors duration-500" />
               </div>

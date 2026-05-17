@@ -2,6 +2,8 @@ import React from "react";
 import { getLatestArticles } from "@/lib/articles";
 import BlogClient from "@/components/blog/BlogClient";
 
+export const revalidate = 3600; // Cache la page pendant 1 heure pour des performances ultra-rapides (10ms)
+
 export const metadata = {
   title: "Blog & Actualités — Ma France Locale",
   description: "Découvrez facilement des articles, actualités et contenus adaptés à votre région ou votre ville.",
